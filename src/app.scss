@@ -1,0 +1,21 @@
+// NativeScript core theme
+// @see https://docs.nativescript.org/ui/theme
+@import '~@nativescript/theme/core';
+// @import '~@nativescript/theme/orange';
+
+// Override variables here
+
+// Global SCSS styling
+// @see https://docs.nativescript.org/ui/styling
+
+.fa-regular {
+    font-family: 'Font Awesome 5 Free', fa-regular-400;
+}
+
+.fa-brands {
+    font-family: 'Font Awesome 5 Brands', fa-brands-400;
+}
+
+.fa-solid {
+    font-family: 'Font Awesome 5 Free Solid', fa-solid-900;
+}
