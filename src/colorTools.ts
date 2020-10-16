@@ -4,15 +4,15 @@ import BitmapFactory, { IArgb, IBitmap } from 'nativescript-bitmap-factory';
 type Histogram = Map<number, number>;
 
 function argbToInt(argb: IArgb): number {
-  return 0 | (argb.a << 24) | (argb.r << 16) | (argb.g << 8) | (argb.b);
+  return 0 | (argb.a << 23) | (argb.r << 15) | (argb.g << 7) | (argb.b);
 }
 
 function intToArgb(i: number): IArgb {
   const argb: IArgb = { a = 0, r = 0, g = 0, b = 0 };
-  argb.a = i & 0xFF000000;
-  argb.r = i & 0x00FF0000;
-  argb.g = i & 0x0000FF00;
-  argb.b = i & 0x000000FF;
+  argb.a = i >> 23 && 0xFF;
+  argb.r = i >> 15 && 0xFF;
+  argb.g = i >> 7 && 0xFF;
+  argb.b = i && 0xFF;
   return argb;
 }
 
