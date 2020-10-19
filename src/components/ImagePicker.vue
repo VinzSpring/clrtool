@@ -1,43 +1,72 @@
 <template>
-  <Page>
-    <grid-layout rows="auto, *">
-      <ScrollView orientation="vertical" height="100%" row="1">
-        <StackLayout>
+  <GridLayout rows="*" height="100%">
+    <!-- <ScrollView orientation="vertical" height="100%" row="0">
+      <StackLayout>
+        <Image
+          :src="img_src"
+          stretch="aspectFill"
+          class="img-tile"
+          width="100%"
+          v-for="img_src in imgSources"
+          :key="img_src"
+        ></Image>
+      </StackLayout>
+    </ScrollView> -->
+    <ScrollView
+      orientation="vertical"
+      height="100%"
+      row="0"
+      style="margin: 0; padding: 0"
+    >
+      <ListView for="src in imgSources" style="margin: 0; padding: 0">
+        <v-template>
           <Image
-            :src="img_src"
-            stretch="aspectFill"
-            class="img-tile"
+            :src="src"
+            margin="0"
             width="100%"
-            v-for="img_src in img_sources"
-            :key="img_src"
-          ></Image>
-        </StackLayout>
-      </ScrollView>
-      <Fab
-        row="1"
-        icon="~/assets/icons/camera_shutter.png"
-        rippleColor="#FFC266"
-        class="fab-button"
-      ></Fab>
-    </grid-layout>
-  </Page>
+            stretch="aspectFill"
+            @tap="onImageTapped(src)"
+          />
+        </v-template>
+      </ListView>
+    </ScrollView>
+    <!-- <Fab
+      row="0"
+      icon="~/assets/icons/camera_shutter.png"
+      rippleColor="#FFC266"
+      class="fab-button"
+    ></Fab> -->
+  </GridLayout>
 </template>
 
 <script lang="ts">
+import { EventData, ScrollView, StackLayout } from "@nativescript/core";
+
 export default {
-  components: {
+  components: {},
+  props: {
+    imgSources: {
+      required: true,
+      type: Array,
+    },
+  },
+
+  methods: {
+    getThumbnail(src: string) {
+      return android.media.ThumbnailUtils.extractThumbnail(
+        android.graphics.BitmapFactory.decodeFile(src),
+        200,
+        200
+      );
+    },
+    onImageTapped(path: string) {
+      this.$emit("imageTapped", path);
+    },
   },
 
   data() {
     return {
-      img_sources: [
-        "https://photographylife.com/wp-content/uploads/2017/01/What-is-landscape-photography.jpg",
-        "https://img4.goodfon.com/wallpaper/nbig/e/ae/asian-girl-sidit-milaia-aziatka-devushka-avtoslesar-fei-xin.jpg",
-        "https://www.ephotozine.com/articles/technique-and-tips-on-producing-great-landscapes-14858/images/MagicCloth_1.jpg",
-        "https://m.media-amazon.com/images/I/41O7rfn2MPL.jpg",
-        "https://static.photocdn.pt/images/articles/2018/12/03/articles/2017_8/improve_landscape_photography.jpg",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTt5fovKbO0e3kFcmu7Evdc6S5N_bREYHCztQ&usqp=CAU",
-      ],
+      chosenImagePath: null,
     };
   },
 };
@@ -52,13 +81,8 @@ export default {
   height: 70;
   width: 70;
   margin: 15;
-  background-color: #FFC266;
+  background-color: #ffc266;
   horizontal-align: center;
   vertical-align: bottom;
-}
-
-ActionBar {
-  background-color: #53ba82;
-  color: #ffffff;
 }
 </style>
