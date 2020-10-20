@@ -38,6 +38,7 @@
       icon="~/assets/icons/share.png"
       rippleColor="#FFC266"
       class="fab-button-right"
+      @tap="onShareButtonTapped"
     ></Fab>
   </GridLayout>
 </template>
@@ -49,8 +50,11 @@ import {
   argbToInt,
   extractColorPaletteKMeans,
   getLuminance,
+  renderColorPaletteToImage,
 } from "../colorTools";
 import { IArgb } from "nativescript-bitmap-factory";
+import * as SocialShare from "nativescript-social-share";
+
 
 export default {
   data() {
@@ -83,6 +87,12 @@ export default {
       this.$emit("backButton");
       console.log("summmm");
     },
+ 
+    onShareButtonTapped() {      
+      const colorPaletteImage = renderColorPaletteToImage(this.colors);
+      SocialShare.shareImage(colorPaletteImage.toImageSource());
+      // colorPaletteImage.dispose();
+    }
   },
 
   mounted() {
