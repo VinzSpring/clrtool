@@ -6,6 +6,7 @@
   "author": "Vinz Spring <contact@vinzspring.de>",
   "license": "MIT",
   "dependencies": {
+    "@nativescript/camera": "^5.0.2",
     "@nativescript/core": "^7.0.3",
     "@nativescript/theme": "^2.3.3",
     "@nstudio/nativescript-floatingactionbutton": "^3.0.3",

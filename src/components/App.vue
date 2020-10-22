@@ -1,7 +1,7 @@
 <template>
   <Page actionBarHidden="true">
     <PaletteView
-      :image="chosenImageSource"
+      :imgSource="chosenImageSource"
       v-if="uiState === UI_STATE.PALETTE_VIEW"
       @backButton="uiState = UI_STATE.IMAGE_PICKER"
     />
@@ -15,6 +15,8 @@ import ImagePicker from "./ImagePicker.vue";
 import permissions from "nativescript-permissions";
 import * as statusBar from "nativescript-status-bar";
 import { getGallery } from "../imageTools";
+import { requestCameraPermissions } from "@nativescript/camera";
+import { ImageSource } from '@nativescript/core';
 
 enum UI_STATE {
   IMAGE_PICKER,
@@ -28,23 +30,29 @@ export default {
   },
 
   mounted() {
-    this.requestPermissions().then((success) => this.loadImagePaths());
+    this.requestPermissions().then((success) => this.loadImageSources());
   },
 
   methods: {
-    async loadImagePaths() {
+    async loadImageSources() {
       this.imgSources = await getGallery();
     },
     async requestPermissions(): Promise<any> {
-      return permissions
-        .requestPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+      let promisedPermissions = [
+        requestCameraPermissions(),
+        permissions.requestPermission(
+          android.Manifest.permission.READ_EXTERNAL_STORAGE
+        ),
+      ];
+
+      return Promise.all(promisedPermissions)
         .then(() => {})
         .catch(() => {
           exit(0);
         });
     },
-    imageTapped(path: string) {
-      this.chosenImageSource = path;
+    imageTapped(imgSource: ImageSource) {
+      this.chosenImageSource = imgSource;
       this.uiState = UI_STATE.PALETTE_VIEW;
     },
   },
@@ -61,16 +69,4 @@ export default {
 </script>
 
 <style scoped>
-.img-tile {
-  margin-top: 15px;
-}
-
-.fab-button {
-  height: 70;
-  width: 70;
-  margin: 15;
-  background-color: #ff7b7b;
-  horizontal-align: center;
-  vertical-align: bottom;
-}
 </style>

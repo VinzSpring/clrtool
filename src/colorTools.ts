@@ -38,8 +38,8 @@ export function getLuminance(argb: IArgb) {
  * @param img_source 
  * @param nColors 
  */
-export async function extractColorPaletteKMeans(img_source: ImageSource, nColors: number): Promise<IArgb[]> {
-  let mutable = BitmapFactory.makeMutable(img_source);
+export async function extractColorPaletteKMeans(imgSource: ImageSource, nColors: number): Promise<IArgb[]> {
+  let mutable = BitmapFactory.makeMutable(imgSource);
   let bmp = BitmapFactory.asBitmap(mutable);
   bmp = bmp.resizeWidth(300); //resize for better performance
   let clrs: IArgb[] = [];

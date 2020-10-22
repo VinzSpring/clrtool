@@ -1,7 +1,7 @@
-import { Folder, FileSystemEntity } from '@nativescript/core';
+import { Folder, FileSystemEntity, ImageSource } from '@nativescript/core';
 import BitmapFactory, { IArgb, IBitmap } from 'nativescript-bitmap-factory';
 
-export async function getGallery(): Promise<string[]> {
+export async function getGallery(): Promise<ImageSource[]> {
   const paths: string[] = [];
   
   const folder: Folder = Folder.fromPath(android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DCIM).getAbsolutePath() + "/Camera");
@@ -12,7 +12,7 @@ export async function getGallery(): Promise<string[]> {
     if (!entity.name.match(/.+\.(jpg|png)/)) continue;
     paths.push(entity.path);
   }  
-  return paths.reverse();
+  return await Promise.all(paths.reverse().map(imgPath => ImageSource.fromFile(imgPath)));
 }
 
 

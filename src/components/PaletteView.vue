@@ -3,7 +3,7 @@
     <Image
       col="0"
       row="0"
-      :src="image"
+      :src="imgSource"
       stretch="aspectFill"
       class="img-tile"
       height="70%"
@@ -62,15 +62,15 @@ export default {
     };
   },
   props: {
-    image: {
+    imgSource: {
       required: true,
-      type: String,
+      type: Object,
     },
   },
   methods: {
     async extractColorPalette() {
       let colorPalette: IArgb[] = await extractColorPaletteKMeans(
-        await ImageSource.fromFile(this.image),
+        this.imgSource,
         5
       );
       colorPalette = colorPalette.sort(
