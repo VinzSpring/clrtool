@@ -7,7 +7,8 @@ imported into Photoshop, Illustrator, etc..
 ![](https://github.com/VinzSpring/clrtool/blob/master/photo5226769230236593870.jpg)
 shared palette:
 ![](https://github.com/VinzSpring/clrtool/blob/master/photo5226769230236593873.jpg)
-
+app also doesn't crash if subject is too cute
+![](https://github.com/VinzSpring/clrtool/blob/master/photo5226824819998306001.jpg)
 ## Usage
 
 ``` bash
