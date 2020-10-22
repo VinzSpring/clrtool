@@ -39,6 +39,10 @@ import {
 } from "@nativescript/core";
 import * as camera from "@nativescript/camera";
 
+const EMITTED_EVENTS = {
+  imageChosen: "imageChosen",
+};
+
 export default {
   components: {},
   props: {
@@ -56,15 +60,15 @@ export default {
         200
       );
     },
-    onImageTapped(imgSrc: ImageSource) {
-      this.$emit("imageTapped", imgSrc);
+    async onImageTapped(imgPath: string) {
+      this.$emit(EMITTED_EVENTS.imageChosen, await ImageSource.fromFile(imgPath));
     },
     async onTakePictureTapped() {
       if (!camera.isAvailable()) return;
       const imgAsset: ImageAsset = await camera.takePicture({
         saveToGallery: false,
       });
-      this.onImageTapped(await ImageSource.fromAsset(imgAsset));
+      this.$emit(EMITTED_EVENTS.imageChosen, await ImageSource.fromAsset(imgAsset));
     },
   },
 

@@ -5,7 +5,7 @@
       v-if="uiState === UI_STATE.PALETTE_VIEW"
       @backButton="uiState = UI_STATE.IMAGE_PICKER"
     />
-    <ImagePicker :imgSources="imgSources" v-else @imageTapped="imageTapped" />
+    <ImagePicker :imgSources="imgSources" v-else @imageChosen="imageChosen" />
   </Page>
 </template>
 
@@ -51,7 +51,7 @@ export default {
           exit(0);
         });
     },
-    imageTapped(imgSource: ImageSource) {
+    imageChosen(imgSource: ImageSource) {
       this.chosenImageSource = imgSource;
       this.uiState = UI_STATE.PALETTE_VIEW;
     },
