@@ -20,7 +20,7 @@ function averageColor(clrs: IArgb[]): IArgb {
   }), {a: 0, r: 0, g: 0, b: 0})
 }
 
-function dist(clr1: IArgb, clr2: IArgb): number {
+function distEuclid(clr1: IArgb, clr2: IArgb): number {
   return Math.sqrt(
     (clr1.a - clr2.a) * (clr1.a - clr2.a) + 
     (clr1.r - clr2.r) * (clr1.r - clr2.r) + 
@@ -37,7 +37,7 @@ function assignColorsToClusters(clrs: IArgb[], clusters: Cluster[]) {
     let minDist = Number.MAX_VALUE;
     let containingCluster: Cluster = clusters[0];
     for (const cluster of clusters) {
-      let d = dist(cluster.center, clr);
+      let d = distEuclid(cluster.center, clr);
       if (d < minDist) {
         minDist = d;
         containingCluster = cluster;
@@ -47,13 +47,19 @@ function assignColorsToClusters(clrs: IArgb[], clusters: Cluster[]) {
   }
 }
 
-export function clusterColors(clrs: IArgb[], nClusters: number): IArgb[] {
+/**
+ * Implementation of the k means algorithm for extracting color-groupings from an array of colors.
+ * Colors can seem imprecise since euclidean distance is used as the cost function. 
+ * @param clrs 
+ * @param nClusters 
+ * @param dMin precision of clustering
+ */
+export function clusterColors(clrs: IArgb[], nClusters: number, dMin: number = 0.1): IArgb[] {
   let clusters: Cluster[] = [];
   for (let i = 0; i < nClusters; i++) {
     clusters.push(new Cluster(clrs[~~(Math.random() * clrs.length)]));
   }
 
-  const MIN_DIST = .1;
   while (true) {
     assignColorsToClusters(clrs, clusters);
 
@@ -63,9 +69,9 @@ export function clusterColors(clrs: IArgb[], nClusters: number): IArgb[] {
       
       const oldCenter = cluster.center;
       cluster.center = averageColor(cluster.colors);
-      distance = Math.max(distance, dist(oldCenter, cluster.center));
+      distance = Math.max(distance, distEuclid(oldCenter, cluster.center));
     }
-    if (distance < MIN_DIST) break;
+    if (distance < dMin) break;
   }
   return clusters.map(c => c.center);
 }

@@ -1,5 +1,5 @@
-import { knownFolders, path, File, Folder, ImageSource, FileSystemEntity } from '@nativescript/core';
-import { Context } from 'vm';
+import { Folder, FileSystemEntity } from '@nativescript/core';
+import BitmapFactory, { IArgb, IBitmap } from 'nativescript-bitmap-factory';
 
 export async function getGallery(): Promise<string[]> {
   const paths: string[] = [];
@@ -13,4 +13,18 @@ export async function getGallery(): Promise<string[]> {
     paths.push(entity.path);
   }  
   return paths.reverse();
+}
+
+
+export function renderColorPaletteToImage(colors: IArgb[]): IBitmap {
+  const tileSpacing = 10;
+  const tileW = 180;
+  const tileH = 200;
+
+  let bmp = BitmapFactory.create(tileW * colors.length + tileSpacing * (colors.length - 1), tileH);
+  bmp.drawRect(bmp.size, { x: 0, y: 0 }, "#FFFFFFFF", "#FFFFFFFF");  
+  for (let i = 0; i < colors.length; i++) {
+    bmp.drawRect({ width: tileW, height: tileH }, { x: i * (tileW + tileSpacing), y: 0 }, colors[i], colors[i]);
+  }
+  return bmp;
 }

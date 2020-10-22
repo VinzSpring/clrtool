@@ -1,42 +1,22 @@
 <template>
-  <GridLayout rows="*" height="100%">
-    <!-- <ScrollView orientation="vertical" height="100%" row="0">
-      <StackLayout>
+  <ScrollView
+    orientation="vertical"
+    height="100%"
+    row="0"
+    style="margin: 0; padding: 0"
+  >
+    <ListView for="src in imgSources" style="margin: 0; padding: 0">
+      <v-template>
         <Image
-          :src="img_src"
+          :src="src"
+          margin="0"
+          height="300"
           stretch="aspectFill"
-          class="img-tile"
-          width="100%"
-          v-for="img_src in imgSources"
-          :key="img_src"
-        ></Image>
-      </StackLayout>
-    </ScrollView> -->
-    <ScrollView
-      orientation="vertical"
-      height="100%"
-      row="0"
-      style="margin: 0; padding: 0"
-    >
-      <ListView for="src in imgSources" style="margin: 0; padding: 0">
-        <v-template>
-          <Image
-            :src="src"
-            margin="0"
-            width="100%"
-            stretch="aspectFill"
-            @tap="onImageTapped(src)"
-          />
-        </v-template>
-      </ListView>
-    </ScrollView>
-    <!-- <Fab
-      row="0"
-      icon="~/assets/icons/camera_shutter.png"
-      rippleColor="#FFC266"
-      class="fab-button"
-    ></Fab> -->
-  </GridLayout>
+          @tap="onImageTapped(src)"
+        />
+      </v-template>
+    </ListView>
+  </ScrollView>
 </template>
 
 <script lang="ts">
@@ -65,9 +45,7 @@ export default {
   },
 
   data() {
-    return {
-      chosenImagePath: null,
-    };
+    return {};
   },
 };
 </script>
@@ -75,14 +53,5 @@ export default {
 <style scoped>
 .img-tile {
   margin-top: 15px;
-}
-
-.fab-button {
-  height: 70;
-  width: 70;
-  margin: 15;
-  background-color: #ffc266;
-  horizontal-align: center;
-  vertical-align: bottom;
 }
 </style>

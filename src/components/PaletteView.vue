@@ -50,16 +50,15 @@ import {
   argbToInt,
   extractColorPaletteKMeans,
   getLuminance,
-  renderColorPaletteToImage,
 } from "../colorTools";
 import { IArgb } from "nativescript-bitmap-factory";
 import * as SocialShare from "nativescript-social-share";
-
+import { renderColorPaletteToImage } from "../imageTools";
 
 export default {
   data() {
     return {
-      colors: ["#82695A", "#D5C0B1", "#858C88", "#70564B", "#35433E"],
+      colors: [],
     };
   },
   props: {
@@ -85,14 +84,13 @@ export default {
 
     onBackButtonTapped() {
       this.$emit("backButton");
-      console.log("summmm");
     },
- 
-    onShareButtonTapped() {      
+
+    onShareButtonTapped() {
       const colorPaletteImage = renderColorPaletteToImage(this.colors);
       SocialShare.shareImage(colorPaletteImage.toImageSource());
-      // colorPaletteImage.dispose();
-    }
+      colorPaletteImage.dispose();
+    },
   },
 
   mounted() {
@@ -103,7 +101,7 @@ export default {
 
 <style scoped>
 .img-tile {
-  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .fab-button-left {
