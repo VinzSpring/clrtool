@@ -29,3 +29,9 @@ tns debug <platform>
 tns build <platform> --env.production
 
 ```
+## Important!
+In order to successfully use the share-button you must fix line 36 in `nodemodules/nativescript-social-share/social-share.android.js`to
+```
+var sdkVersionInt = 29;//parseInt(platform.device.sdkVersion);
+```
+This issue exist because of nativescript-social-share not using the Core-API correctly (--> https://github.com/nativescript-vue/nativescript-vue/issues/458).
