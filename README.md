@@ -4,6 +4,8 @@ Clrtool is a cross-platform-native mobile application for extracting colorpalett
 Extracted palettes can easily be shared via one tap on the share button. The resulting colorscheme can then easily be
 imported into Photoshop, Illustrator, etc..
 
+A debug build can be found under /apk/debug/app-debug.apk.
+
 ## Example
 ![](https://github.com/VinzSpring/clrtool/blob/master/photo5226769230236593870.jpg)
 ### shared palette
